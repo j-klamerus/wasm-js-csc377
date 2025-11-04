@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="main.css">
     <title>Document</title>
 </head>
 <body>
@@ -14,15 +15,18 @@
     <script src="a.out.js"></script>
 
     <h2>Fibonacci Wasm vs JS</h2>
-    <label>n: <input id="fibN" type="number" value="20" min="1"/></label>
-    <button id="runJs">Run JS Fib</button>
-    <button id="runWasm">Run Wasm Fib</button>
-    <button id="compare">Compare (single run)</button>
-    <button id="clear">clear results</button>
-    <pre id="out" style="background:#f6f6f6;padding:8px;border:1px solid #ddd;">Output will appear here</pre>
+    <p>for best results use n value between 20 and 40</p>
+    <div class="container">
+        <label>n: <input id="fibN" type="number" value="20" min="1"/></label>
+        <button id="runJs">Run JS Fib</button>
+        <button id="runWasm">Run Wasm Fib</button>
+        <button id="compare">Compare (single run)</button>
+        <button id="clear">clear results</button>
+        <pre id="out" style="background:#f6f6f6;padding:8px;border:1px solid #ddd;">Output will appear here</pre>
+    </div>
 
     <script>
-        // plain JS recursive fib
+        // javascript fibonacci implementation
         function jsFib(n) {
             if (n === 1) return 1;
             if (n === 2) return 1;
@@ -38,21 +42,12 @@
                         var wrapped = Module.cwrap('fib', 'number', ['number']);
                         if (typeof wrapped === 'function') return wrapped;
                     } catch(e) {
-                        // ignore
+                        console.log("error:", e.message);
                     }
                 }
-            } catch(e) {}
-
-            // Otherwise try to find the raw wasm export (common names)
-           /* try {
-                if (typeof wasmExports !== 'undefined' && wasmExports) {
-                    if (typeof wasmExports.fib === 'function') return wasmExports.fib;
-                    if (typeof wasmExports._fib === 'function') return wasmExports._fib;
-                    if (typeof wasmExports['fib'] === 'function') return wasmExports['fib'];
-                }
-            } catch(e) {}
-
-            return null;*/
+            } catch(e) {
+                console.log("error:", e.message);
+            }
         }
 
         function show(msg) {
@@ -94,7 +89,7 @@
             var j = timeAndRun(jsFib, n);
             var w = timeAndRun(wasmFn, n);
             var ok = (j.result === w.result);
-            show(`COMPARE n=${n}  JS=${j.result} (${j.timeMs.toFixed(3)}ms)  WASM=${w.result} (${w.timeMs.toFixed(3)}ms)  equal=${ok}`);
+            show(`COMPARE n=${n}  JS=${j.result} (${j.timeMs.toFixed(0)}ms)  WASM=${w.result} (${w.timeMs.toFixed(0)}ms)  equal=${ok}`);
         });
 
         document.getElementById('clear').addEventListener('click', function() {
@@ -103,7 +98,7 @@
         });
 
         // If the runtime is already initialized, nothing else needed. If not, set a handler so the user can click after initialization.
-        if (Module && Module.calledRun) {
+       /* if (Module && Module.calledRun) {
             show('Wasm runtime already initialized.');
         } else {
             // Provide a visual note once runtime initializes
@@ -112,7 +107,7 @@
                 if (typeof prev === 'function') prev();
                 show('Wasm runtime initialized. You can now press "Run Wasm Fib" or "Compare".');
             };
-        }
+        }*/
     </script>
 </body>
 </html>
