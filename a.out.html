@@ -7,7 +7,6 @@
     <title>Document</title>
 </head>
 <body>
-    <!-- Provide a Module stub so we can set onRuntimeInitialized before the Emscripten glue runs -->
     <script>
         var Module = typeof Module !== 'undefined' ? Module : {};
     </script>
@@ -33,9 +32,9 @@
             return jsFib(n-1) + jsFib(n-2);
         }
 
-        // Helper to obtain the exported fib implementation from the wasm module.
+        // get wasm function
         function getWasmFibFunction() {
-            // If emscripten provided cwrap/call wrappers
+            // i have no idea
             try {
                 if (typeof Module !== 'undefined' && Module.cwrap) {
                     try {
@@ -96,18 +95,6 @@
             var out = document.getElementById('out');
             out.textContent = '';
         });
-
-        // If the runtime is already initialized, nothing else needed. If not, set a handler so the user can click after initialization.
-       /* if (Module && Module.calledRun) {
-            show('Wasm runtime already initialized.');
-        } else {
-            // Provide a visual note once runtime initializes
-            var prev = Module.onRuntimeInitialized;
-            Module.onRuntimeInitialized = function() {
-                if (typeof prev === 'function') prev();
-                show('Wasm runtime initialized. You can now press "Run Wasm Fib" or "Compare".');
-            };
-        }*/
     </script>
 </body>
 </html>
