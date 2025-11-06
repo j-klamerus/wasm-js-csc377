@@ -21,9 +21,9 @@
         <button id="runWasm">Run Wasm Fib</button>
         <button id="compare">Compare (single run)</button>
         <button id="clear">clear results</button>
-        <button id="test">Run Tests (n=20..40)</button>
-        <pre id="out" style="background:#f6f6f6;padding:8px;border:1px solid #ddd;">Output will appear here</pre>
+        <button id="test">Run Tests n = 40, 20x</button>
     </div>
+    <pre id="out" style="background:#f6f6f6;padding:8px;border:1px solid #ddd;">Output will appear here</pre>
 
     <script>
         // javascript fibonacci implementation
@@ -52,16 +52,30 @@
 
         function runTests() {
             var wasmFn = getWasmFibFunction();
-            if (!wasmFn) {
-                show('No exported wasm fib function found.');
+            let jsAvg = [];
+            let wasmAvg = [];
+            let jsSum = 0;
+            let wasmSum = 0;
+            if(!wasmFn) {
+                show('no wasm function found');
                 return;
             }
-            for (var n = 20; n <= 40; n += 5) {
+            for(let i = 0; i < 20; i++) {
+                let n = 40;
                 var j = timeAndRun(jsFib, n);
                 var w = timeAndRun(wasmFn, n);
-                var ok = (j.result === w.result);
-                show(`n=${n}  JS=${j.result} (${j.timeMs.toFixed(0)}ms)  WASM=${w.result} (${w.timeMs.toFixed(0)}ms)  equal=${ok}`);
+                let equalivalent = (j.result === w.result);
+                show(`n=${n}  JS=${j.result} (${j.timeMs.toFixed(0)}ms)  WASM=${w.result} (${w.timeMs.toFixed(0)}ms)  equal=${equalivalent}`);
+                jsAvg.push(j);
+                wasmAvg.push(w);
             }
+            jsAvg.forEach((time) => {
+                jsSum += time.timeMs;
+            })
+            wasmAvg.forEach((time) => {
+                wasmSum += time.timeMs;
+            })
+            show(`javascript average: ${jsSum / 20}  wasmAverage: ${wasmSum / 20}`)
         }
 
         function show(msg) {
