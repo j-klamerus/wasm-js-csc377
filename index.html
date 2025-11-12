@@ -12,16 +12,21 @@
     </script>
 
     <script src="a.out.js"></script>
-
-    <h2>Fibonacci Wasm vs JS</h2>
-    <p>for best results use n value between 20 and 40</p>
+    <header>
+        <div class="container">
+            <h2>Fibonacci Wasm (C++) vs JS</h2>
+        </div>
+        <div class="container">
+            <p>For best results use n value between 30 and 45</p>
+        </div>
+    </header>
     <div class="container">
         <label>n: <input id="fibN" type="number" value="20" min="1"/></label>
-        <button id="runJs">Run JS Fib</button>
-        <button id="runWasm">Run Wasm Fib</button>
+        <button id="runJs">Run JavaScript</button>
+        <button id="runWasm">Run wasm (c++)</button>
         <button id="compare">Compare (single run)</button>
-        <button id="clear">clear results</button>
         <button id="test">Run Tests n = 40, 20x</button>
+        <button id="clear" class="delete-button">clear results</button>
     </div>
     <pre id="out" style="background:#f6f6f6;padding:8px;border:1px solid #ddd;">Output will appear here</pre>
 
