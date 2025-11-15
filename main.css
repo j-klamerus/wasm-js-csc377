@@ -1,6 +1,8 @@
 .container {
     display: flex;
     justify-content: center;
+    width: 70%;
+    margin: auto;
 }
 
 .header {
@@ -52,4 +54,15 @@
   color: rgb(147, 147, 147);
   background-color: #f1f1f1;
   text-align: center;
+}
+.output {
+    width: 50%;
+    margin: auto;
+    font-size: 1vw;
+}
+
+@media screen and (max-width: 800px) {
+  .container, .output {
+    width: 100%;
+  }
 }
