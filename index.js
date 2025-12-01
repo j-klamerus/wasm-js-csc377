@@ -2,14 +2,13 @@
 var wasmFibFn = null;
 var wasmReady = false;
 
-// If Module is present, wait for Emscripten runtime to be initialized
 if (typeof Module !== 'undefined') {
     Module.onRuntimeInitialized = function () {
         try {
             wasmFibFn = Module.cwrap('fib', 'number', ['number']);
             wasmReady = true;
             console.log('WASM runtime initialized');
-            // enable WASM-related buttons if present
+
             var runWasmEl = document.getElementById('runWasm');
             var compareEl = document.getElementById('compare');
             var testEl = document.getElementById('test');
